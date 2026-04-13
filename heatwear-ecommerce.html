@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEATWEAR — Vêtements Chauffants</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire: #FF4500;
+    --ember: #FF8C00;
+    --glow: #FFD700;
+    --dark: #0a0a0a;
+    --mid: #141414;
+    --surface: #1e1e1e;
+    --text: #f0ece4;
+    --muted: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,69,0,0.2);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.1em;
+    background: linear-gradient(90deg, var(--fire), var(--glow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--fire); }
+  .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+  .cart-btn {
+    background: var(--fire); color: #fff; border: none; cursor: pointer;
+    padding: 0.6rem 1.4rem; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 0.82rem; letter-spacing: 0.1em;
+    text-transform: uppercase; border-radius: 2px;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .cart-btn:hover { background: var(--ember); transform: scale(1.04); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 70% 60%, rgba(255,69,0,0.18), transparent 65%),
+                radial-gradient(ellipse 40% 50% at 30% 30%, rgba(255,140,0,0.08), transparent 60%);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%;
+    position: relative; z-index: 1;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--fire); font-weight: 600; margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 2rem; height: 2px; background: var(--fire);
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+  }
+  h1 span {
+    background: linear-gradient(135deg, var(--fire), var(--glow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-desc {
+    color: var(--muted); font-size: 1.05rem; line-height: 1.7;
+    max-width: 420px; margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--fire), var(--ember));
+    color: #fff; border: none; cursor: pointer;
+    padding: 1rem 2.5rem; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 0.9rem; letter-spacing: 0.08em;
+    text-transform: uppercase; border-radius: 2px;
+    box-shadow: 0 0 30px rgba(255,69,0,0.4);
+    transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(255,69,0,0.6); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid rgba(240,236,228,0.25); cursor: pointer;
+    padding: 1rem 2.5rem; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; font-size: 0.9rem; letter-spacing: 0.08em;
+    text-transform: uppercase; border-radius: 2px;
+    transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--fire); color: var(--fire); }
+
+  /* HERO VISUAL */
+  .hero-visual {
+    position: relative; display: flex; justify-content: center; align-items: center;
+  }
+  .product-showcase {
+    width: 100%; max-width: 480px;
+    background: var(--surface);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255,69,0,0.15);
+    box-shadow: 0 0 80px rgba(255,69,0,0.12);
+    position: relative;
+  }
+  .product-showcase img {
+    width: 100%; height: 420px; object-fit: cover; display: block;
+    filter: brightness(0.9);
+  }
+  .product-showcase-badge {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--fire); color: #fff;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.4rem 0.8rem; border-radius: 2px;
+  }
+  .glow-orb {
+    position: absolute; width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,69,0,0.25) 0%, transparent 70%);
+    top: -50px; right: -80px; filter: blur(40px); pointer-events: none;
+  }
+
+  /* FEATURES BAR */
+  .features-bar {
+    background: var(--surface);
+    border-top: 1px solid rgba(255,69,0,0.15);
+    border-bottom: 1px solid rgba(255,69,0,0.15);
+    padding: 1.5rem 3rem;
+  }
+  .features-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1rem; text-align: center;
+  }
+  .feature-item { display: flex; align-items: center; justify-content: center; gap: 0.7rem; }
+  .feature-icon { font-size: 1.3rem; }
+  .feature-text { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em; color: var(--muted); }
+  .feature-text strong { color: var(--text); display: block; }
+
+  /* PRODUCTS */
+  .section { max-width: 1200px; margin: 0 auto; padding: 6rem 3rem; }
+  .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3rem; }
+  .section-label {
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--fire); font-weight: 600; margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.04em; line-height: 1;
+  }
+  .view-all {
+    color: var(--muted); text-decoration: none; font-size: 0.82rem;
+    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
+    border-bottom: 1px solid var(--muted); padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .view-all:hover { color: var(--fire); border-color: var(--fire); }
+
+  .products-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .product-card {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,69,0,0.35);
+    box-shadow: 0 20px 60px rgba(255,69,0,0.15);
+  }
+  .product-img {
+    width: 100%; height: 300px; object-fit: cover;
+    display: block; background: #111;
+    filter: brightness(0.85);
+    transition: filter 0.3s;
+  }
+  .product-card:hover .product-img { filter: brightness(1); }
+  .product-info { padding: 1.4rem; }
+  .product-category {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--fire); font-weight: 600; margin-bottom: 0.5rem;
+  }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.05em; margin-bottom: 0.7rem;
+  }
+  .product-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.2rem; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--fire), var(--glow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .add-btn {
+    background: rgba(255,69,0,0.15); border: 1px solid rgba(255,69,0,0.4);
+    color: var(--fire); cursor: pointer; padding: 0.6rem 1.2rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .add-btn:hover { background: var(--fire); color: #fff; }
+
+  /* HEAT BADGE */
+  .heat-levels {
+    display: flex; gap: 0.3rem; margin-bottom: 0.8rem;
+  }
+  .heat-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,69,0,0.25);
+  }
+  .heat-dot.active { background: var(--fire); box-shadow: 0 0 6px var(--fire); }
+
+  /* BUNDLE SECTION */
+  .bundle-section {
+    background: var(--surface);
+    border-top: 1px solid rgba(255,69,0,0.1);
+    border-bottom: 1px solid rgba(255,69,0,0.1);
+    padding: 6rem 3rem;
+  }
+  .bundle-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .bundle-tag {
+    display: inline-block; background: rgba(255,215,0,0.12); color: var(--glow);
+    border: 1px solid rgba(255,215,0,0.3); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; padding: 0.4rem 0.9rem;
+    border-radius: 2px; margin-bottom: 1.2rem;
+  }
+  .bundle-items { display: flex; flex-direction: column; gap: 1rem; margin: 2rem 0; }
+  .bundle-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem; background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07); border-radius: 3px;
+  }
+  .bundle-item-icon { font-size: 1.8rem; }
+  .bundle-item-name { font-weight: 600; font-size: 0.9rem; }
+  .bundle-item-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+  .bundle-item-price { margin-left: auto; color: var(--muted); font-size: 0.85rem; text-decoration: line-through; }
+  .bundle-total {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 1rem;
+    border-top: 1px solid rgba(255,69,0,0.2);
+    margin-top: 0.5rem;
+  }
+  .bundle-total-label { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .bundle-total-price {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--fire), var(--glow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .bundle-savings {
+    background: rgba(255,69,0,0.12); color: var(--fire);
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 2px;
+  }
+  .bundle-visual {
+    position: relative; display: flex; justify-content: center;
+  }
+  .bundle-imgs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: 100%;
+  }
+  .bundle-img-wrap {
+    background: rgba(255,69,0,0.06); border: 1px solid rgba(255,69,0,0.15);
+    border-radius: 4px; overflow: hidden; aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bundle-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); }
+  .bundle-img-wrap.large { grid-column: span 2; aspect-ratio: 2/1; }
+
+  /* TESTIMONIALS */
+  .testimonials { max-width: 1200px; margin: 0 auto; padding: 6rem 3rem; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .testi-card {
+    background: var(--surface); border: 1px solid rgba(255,255,255,0.06);
+    padding: 1.8rem; border-radius: 4px;
+  }
+  .testi-stars { color: var(--glow); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
+  .testi-text { font-size: 0.88rem; line-height: 1.7; color: #c0bdb8; margin-bottom: 1.2rem; font-style: italic; }
+  .testi-author { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+  .testi-role { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--mid); border-top: 1px solid rgba(255,69,0,0.1);
+    padding: 3rem;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-copy { font-size: 0.78rem; color: var(--muted); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--fire); }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+    background: var(--surface); border: 1px solid rgba(255,69,0,0.4);
+    color: var(--text); padding: 1rem 1.5rem; border-radius: 4px;
+    font-size: 0.85rem; font-weight: 500;
+    box-shadow: 0 0 30px rgba(255,69,0,0.2);
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast span { color: var(--fire); font-weight: 700; }
+
+  /* CART COUNT */
+  .cart-count {
+    background: var(--fire); color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-left: 0.3rem; vertical-align: middle;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid, .bundle-inner { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .features-inner { grid-template-columns: repeat(2, 1fr); }
+    .testi-grid { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .section, .testimonials { padding: 4rem 1.5rem; }
+    .bundle-section { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🔥 HEATWEAR</div>
+  <ul class="nav-links">
+    <li><a href="#produits">Produits</a></li>
+    <li><a href="#bundle">Bundle</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="openCart()">🛒 Panier <span class="cart-count" id="cartCount">0</span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Technologie Chauffante USB</div>
+      <h1>RESTEZ<br><span>CHAUD</span><br>PARTOUT.</h1>
+      <p class="hero-desc">Vêtements chauffants de haute performance — vestes, gants, bonnets. Chaleur instantanée. Autonomie jusqu'à 8h. Pour tous les aventuriers.</p>
+      <div class="hero-actions">
+        <a href="#produits" class="btn-primary">Découvrir la collection</a>
+        <a href="#bundle" class="btn-outline">Pack complet</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="glow-orb"></div>
+      <div class="product-showcase">
+        <!-- Remplacez le src par vos images -->
+        <img src="images/veste.png" alt="Veste Chauffante" />
+        <div class="product-showcase-badge">⚡ Chauffage Intelligent</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES BAR -->
+<div class="features-bar">
+  <div class="features-inner">
+    <div class="feature-item">
+      <span class="feature-icon">⚡</span>
+      <div class="feature-text"><strong>Chauffe rapide</strong>30 secondes</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🔋</span>
+      <div class="feature-text"><strong>Longue durée</strong>Jusqu'à 8h</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🌧️</span>
+      <div class="feature-text"><strong>Imperméable</strong>IP65</div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon">🚚</span>
+      <div class="feature-text"><strong>Livraison offerte</strong>dès 80€</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="section" id="produits">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Notre Collection</div>
+      <h2>Chaleur sur<br>commande</h2>
+    </div>
+    <a href="#" class="view-all">Voir tout →</a>
+  </div>
+
+  <div class="products-grid">
+
+    <!-- VESTE -->
+    <div class="product-card">
+      <img class="product-img" src="images/veste.png" alt="Veste Chauffante" />
+      <div class="product-info">
+        <div class="product-category">Veste</div>
+        <div class="product-name">HeatWear Pro Jacket</div>
+        <div class="heat-levels">
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot"></div>
+          <div class="heat-dot"></div>
+        </div>
+        <p class="product-desc">11 zones chauffantes, 3 niveaux d'intensité. Légère, coupe-vent, imperméable. Idéale pour le ski, la rando et la ville.</p>
+        <div class="product-footer">
+          <div class="product-price">89€</div>
+          <button class="add-btn" onclick="addToCart('Veste Chauffante Pro', '89€')">+ Panier</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GANTS -->
+    <div class="product-card">
+      <img class="product-img" src="images/gants.png" alt="Gants Chauffants" />
+      <div class="product-info">
+        <div class="product-category">Gants</div>
+        <div class="product-name">HeatWear Touch Gloves</div>
+        <div class="heat-levels">
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot"></div>
+        </div>
+        <p class="product-desc">Doigts compatibles écran tactile. Batterie 4000mAh incluse. Chauffe en 20 secondes. Parfaits pour le ski et la moto.</p>
+        <div class="product-footer">
+          <div class="product-price">49€</div>
+          <button class="add-btn" onclick="addToCart('Gants Chauffants Touch', '49€')">+ Panier</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BONNET -->
+    <div class="product-card">
+      <img class="product-img" src="images/bonnet.png" alt="Bonnet Chauffant" />
+      <div class="product-info">
+        <div class="product-category">Bonnet</div>
+        <div class="product-name">HeatWear Beanie Pro</div>
+        <div class="heat-levels">
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+          <div class="heat-dot active"></div>
+        </div>
+        <p class="product-desc">Tricot premium, résistance chauffante intégrée sur toute la surface. Rechargeable USB. Léger et discret sous un casque.</p>
+        <div class="product-footer">
+          <div class="product-price">39€</div>
+          <button class="add-btn" onclick="addToCart('Bonnet Chauffant Pro', '39€')">+ Panier</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BUNDLE -->
+<div class="bundle-section" id="bundle">
+  <div class="bundle-inner">
+    <div>
+      <div class="bundle-tag">⚡ Meilleure affaire</div>
+      <div class="section-label">Pack complet</div>
+      <h2>LE KIT<br>CHALEUR<br>TOTAL</h2>
+      <p style="color: var(--muted); margin: 1rem 0; line-height: 1.7; font-size: 0.92rem;">Nos 3 produits phares réunis dans un pack exclusif. Économisez 30% et soyez au chaud de la tête aux pieds.</p>
+      <div class="bundle-items">
+        <div class="bundle-item">
+          <div class="bundle-item-icon">🧥</div>
+          <div>
+            <div class="bundle-item-name">HeatWear Pro Jacket</div>
+            <div class="bundle-item-sub">11 zones · 3 niveaux · USB-C</div>
+          </div>
+          <div class="bundle-item-price">89€</div>
+        </div>
+        <div class="bundle-item">
+          <div class="bundle-item-icon">🧤</div>
+          <div>
+            <div class="bundle-item-name">HeatWear Touch Gloves</div>
+            <div class="bundle-item-sub">Tactile · 4000mAh · Imperméable</div>
+          </div>
+          <div class="bundle-item-price">49€</div>
+        </div>
+        <div class="bundle-item">
+          <div class="bundle-item-icon">🧢</div>
+          <div>
+            <div class="bundle-item-name">HeatWear Beanie Pro</div>
+            <div class="bundle-item-sub">Tricot premium · Rechargeable</div>
+          </div>
+          <div class="bundle-item-price">39€</div>
+        </div>
+      </div>
+      <div class="bundle-total">
+        <div>
+          <div class="bundle-total-label">Prix du kit</div>
+          <div class="bundle-total-price">124€</div>
+        </div>
+        <div class="bundle-savings">Économisez 53€</div>
+      </div>
+      <button class="btn-primary" style="margin-top: 1.5rem; width: 100%; text-align: center;" onclick="addToCart('Kit Chaleur Total', '124€')">Ajouter le kit au panier</button>
+    </div>
+    <div class="bundle-visual">
+      <div class="bundle-imgs">
+        <div class="bundle-img-wrap large">
+          <img src="images/veste.png" alt="Veste" />
+        </div>
+        <div class="bundle-img-wrap">
+          <img src="images/gants.png" alt="Gants" />
+        </div>
+        <div class="bundle-img-wrap">
+          <img src="images/bonnet.png" alt="Bonnet" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="avis">
+  <div class="section-label">Témoignages</div>
+  <h2>ILS ONT TESTÉ<br>LE CHAUD</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Skieur depuis 20 ans, jamais eu les mains aussi chaudes. Les gants sont incroyables, la batterie tient toute la journée sur les pistes."</p>
+      <div class="testi-author">Marc D.</div>
+      <div class="testi-role">Skieur alpin · Chamonix</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"J'ai commandé le kit complet pour mon mari. Il est motard et depuis, il ne sort plus sans la veste et les gants. Livraison rapide, qualité top."</p>
+      <div class="testi-author">Sophie L.</div>
+      <div class="testi-role">Cliente fidèle · Lyon</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★☆</div>
+      <p class="testi-text">"Le bonnet est discret mais vraiment efficace. Je l'utilise pour le running hivernal, ça change tout. La chaleur se distribue bien sur tout le crâne."</p>
+      <div class="testi-author">Thomas R.</div>
+      <div class="testi-role">Coureur trail · Grenoble</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="logo" style="font-size: 1.4rem; margin-bottom: 0.4rem;">🔥 HEATWEAR</div>
+      <div class="footer-copy">© 2025 HeatWear France. Tous droits réservés.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">CGV</a>
+      <a href="#">Politique de retour</a>
+      <a href="#">Contact</a>
+      <a href="#">FAQ</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">🔥 <span id="toastProduct"></span> ajouté au panier !</div>
+
+<script>
+  let cartCount = 0;
+  let toastTimeout;
+
+  function addToCart(product, price) {
+    cartCount++;
+    document.getElementById('cartCount').textContent = cartCount;
+
+    const toast = document.getElementById('toast');
+    document.getElementById('toastProduct').textContent = product;
+    toast.classList.add('show');
+
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  function openCart() {
+    alert(`Votre panier contient ${cartCount} article(s).\n\n(Intégrez votre solution de paiement ici — Stripe, Shopify, etc.)`);
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
